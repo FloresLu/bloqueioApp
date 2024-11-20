@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import Estilo from './recursos/estilos/Estilo';
 
 const App = () => {
@@ -9,11 +10,13 @@ const App = () => {
   const [solicitanteBloqueio, setSolicitanteBloqueio] = useState('');
   const [tagItemBloqueado, setTagItemBloqueado] = useState('');
   const [objetivoBloqueio, setObjetivoBloqueio] = useState('');
-  const [dataHora, setDataHora] = useState('');
+  const [dataHora, setDataHora] = useState(new Date());
+  const [showPicker, setShowPicker] = useState(false);
   const [selectedValue, setSelectedValue] = useState('RTG05');
 
-  const enviando = () => {
-    console.log({
+  function checarCampos(){
+    if((nomeExecutante, matriculaExecutante, solicitanteBloqueio, tagItemBloqueado, objetivoBloqueio, dataHora) !== ''){
+      console.log({
       nomeExecutante,
       matriculaExecutante,
       solicitanteBloqueio,
@@ -22,6 +25,30 @@ const App = () => {
       dataHora,
       selectedValue,
     });
+      setNomeExecutante('');
+      setMatriculaExecutante('');
+      setSolicitanteBloqueio('');
+      setTagItemBloqueado('');
+      setObjetivoBloqueio('');
+      setDataHora('');
+      setSelectedValue('RTG05');
+      } else{
+        alert('Preencha todos os campos!');
+      }
+  };
+
+  const enviando = () => {
+    checarCampos();
+  };
+
+  const showDatePicker = () => {
+    setShowPicker(true);
+  };
+
+  const onChangeDate = (selectedDate) => {
+    const currentDate = selectedDate || dataHora;
+    setShowPicker(false);
+    setDataHora(currentDate);
   };
 
   return(
@@ -38,6 +65,7 @@ const App = () => {
           style={Estilo.entradaDeTexto}
           value={nomeExecutante}
           onChangeText={setNomeExecutante}
+          placeholder="Ex: Primeiro nome e último nome"
         />
 
         <Text style={Estilo.rotuloTexto}>Matrícula do executante</Text>
@@ -45,6 +73,7 @@ const App = () => {
           style={Estilo.entradaDeTexto}
           value={matriculaExecutante}
           onChangeText={setMatriculaExecutante}
+          placeholder="Ex: 1234"
           keyboardType="numeric"
         />
 
@@ -53,6 +82,7 @@ const App = () => {
           style={Estilo.entradaDeTexto}
           value={solicitanteBloqueio}
           onChangeText={setSolicitanteBloqueio}
+          placeholder="Ex: Primeiro nome e último nome"
         />
 
         <Text style={Estilo.rotuloTexto}>Tag do item bloqueado</Text>
@@ -60,6 +90,7 @@ const App = () => {
           style={Estilo.entradaDeTexto}
           value={tagItemBloqueado}
           onChangeText={setTagItemBloqueado}
+          placeholder="EX: =11-f16, =11-f17"
         />
 
         <Text style={Estilo.rotuloTexto}>Objetivo do bloqueio</Text>
@@ -67,14 +98,24 @@ const App = () => {
           style={Estilo.entradaDeTexto}
           value={objetivoBloqueio}
           onChangeText={setObjetivoBloqueio}
+          placeholder="EX: Impedir de ligar RTG"
         />
 
-        <Text style={Estilo.rotuloTexto}>Data e hora</Text>
-        <TextInput
-          style={Estilo.entradaDeTexto}
-          value={dataHora}
-          onChangeText={setDataHora}
-        />
+<Text style={Estilo.rotuloTexto}>Data e Hora</Text>
+        <TouchableOpacity onPress={showDatePicker}>
+          <Text style={Estilo.entradaDeTexto}>
+            {dataHora.toLocaleString()}
+          </Text>
+        </TouchableOpacity>
+
+        {showPicker && (
+          <DateTimePicker
+            value={dataHora}
+            mode="datetime"
+            display="default"
+            onChange={onChangeDate}
+          />
+        )}
 
         <Text style={Estilo.rotuloTexto}>Esolha o equipamento</Text>
         <Picker
