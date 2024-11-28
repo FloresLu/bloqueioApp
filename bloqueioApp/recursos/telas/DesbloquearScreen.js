@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Estilo from '../estilos/Estilo';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, Image, Alert,KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Image, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as MailComposer from 'expo-mail-composer';
@@ -52,7 +52,7 @@ const DesbloquearScreen = ({ navigation }) => {
   };
 
   return (
-    
+
     <View style={Estilo.container}>
       <Image
         source={require('../imagens/logo.png')}
@@ -61,7 +61,7 @@ const DesbloquearScreen = ({ navigation }) => {
       />
       <Text style={Estilo.titulo}>Desbloquear Equipamento</Text>
       <ScrollView contentContainerStyle={Estilo.formularioContainer}>
-      
+
 
         <Text style={Estilo.rotuloTexto}>Nome do executante</Text>
         <TextInput
@@ -94,14 +94,14 @@ const DesbloquearScreen = ({ navigation }) => {
             <Picker.Item label={value} value={value} key={value} />
           ))}
         </Picker>
-          
+
         <TouchableOpacity style={Estilo.botaoGeral} onPress={desbloqueando}>
           <Text style={Estilo.botaoGeralTexto}>Desbloquear</Text>
         </TouchableOpacity>
-        
+
       </ScrollView>
     </View>
-    
+
   );
 };
 
