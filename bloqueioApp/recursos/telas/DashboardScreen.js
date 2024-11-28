@@ -1,24 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Estilo from '../estilos/Estilo';
 
-const DashboardScreen = ({ navigation }) => {
-  const equipamentos = [
-    "RTG05", "RTG06", "RTG07", "RTG08", "RTG09",
-    "RTG10", "RTG11", "RTG12", "RTG13", "RTG14",
-    "RTG15", "RTG16", "PTN03", "PTN04", "PTN05",
-    "PTN06", "PTN07"
-  ];
+const DashboardScreen = () => {
+  const [cartoes, setCartoes] = useState([]);
+
+  useEffect(() => {
+    const carregarCartoes = async () => {
+      const cartoesExistentes = await AsyncStorage.getItem('cartoes');
+      if (cartoesExistentes) {
+        setCartoes(JSON.parse(cartoesExistentes));
+      }
+    };
+
+    carregarCartoes();
+  }, []);
 
   return (
     <View style={Estilo.container}>
-      <ScrollView contentContainerStyle={Estilo.containerCartao}>
-        {equipamentos.map((equipamento) => (
-          <View key={equipamento} style={Estilo.cartao}>
-            <Text style={Estilo.tituloCartao}>{equipamento}</Text>
-            <Text style={Estilo.textoCartao}>Nome: </Text>
-            <Text style={Estilo.textoCartao}>Objetivo: </Text>
-            <Text style={Estilo.textoCartao}>Data: {new Date().toLocaleDateString()}</Text>
+      <ScrollView>
+        {cartoes.map((cartao, index) => (
+          <View key={index} style={[Estilo.cartao, index === cartoes.length - 1 && { marginBottom: 100 }]}>
+            <Text style={Estilo.tituloCartao}>{cartao.selectedValue}</Text>
+            <Text style={Estilo.cartaoTexto}>Nome do Executante:{cartao.nomeExecutante}</Text>
+            <Text style={Estilo.cartaoTexto}>Objetivo do Bloqueio: {cartao.objetivoBloqueio}</Text>
+            <Text style={Estilo.cartaoTexto}>Data do Bloqueio: {cartao.dataBloqueio}</Text>
           </View>
         ))}
       </ScrollView>

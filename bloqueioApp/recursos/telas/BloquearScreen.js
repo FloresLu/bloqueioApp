@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Estilo from '../estilos/Estilo';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as MailComposer from 'expo-mail-composer';
 
 
 
@@ -16,27 +18,55 @@ const BloquearScreen = ({ navigation }) => {
 
   function checarCampos() {
     if ((nomeExecutante, matriculaExecutante, solicitanteBloqueio, tagItemBloqueado, objetivoBloqueio) !== '') {
-      console.log({
-        nomeExecutante,
-        matriculaExecutante,
-        solicitanteBloqueio,
-        tagItemBloqueado,
-        objetivoBloqueio,
-        selectedValue,
-      });
       setNomeExecutante('');
       setMatriculaExecutante('');
       setSolicitanteBloqueio('');
       setTagItemBloqueado('');
       setObjetivoBloqueio('');
       setSelectedValue('RTG05');
+      return true;
     } else {
       alert('Preencha todos os campos!');
+      return false;
     }
   };
 
-  const enviando = () => {
-    checarCampos();
+  const bloqueando = async () => {
+    if (checarCampos()) {
+      const novoCartao = {
+        nomeExecutante,
+        objetivoBloqueio,
+        selectedValue,
+        dataBloqueio: new Date().toLocaleDateString(),
+      };
+      // Obtém os cartões existentes
+      const cartoesExistentes = await AsyncStorage.getItem('cartoes');
+      const cartoes = cartoesExistentes ? JSON.parse(cartoesExistentes) : [];
+      // Adiciona o novo cartão à lista
+      cartoes.push(novoCartao);
+      // Armazena a lista atualizada no AsyncStorage
+      await AsyncStorage.setItem('cartoes', JSON.stringify(cartoes));
+      // Navega para o Dashboard
+      navigation.navigate('Dashboard');
+
+      MailComposer.composeAsync({
+        recipients: ['EmailAqui@email.com'], // Substitua pelo email do destinatário
+        subject: `Bloqueio do Equipamento ${selectedValue}`,
+        body: `
+          Nome do Executante: ${nomeExecutante}
+          Matrícula do Executante: ${matriculaExecutante}
+          Solicitante do Bloqueio: ${solicitanteBloqueio}
+          Tag do Item Bloqueado: ${tagItemBloqueado}
+          Objetivo do Bloqueio: ${objetivoBloqueio}
+        `,
+      }).then(() => {
+        // Navega para o Dashboard após o envio do email
+        navigation.navigate('Dashboard');
+      }).catch(error => {
+        Alert.alert('Erro', 'Não foi possível enviar o email. Tente novamente.');
+      });
+
+    };
   };
 
 
@@ -107,7 +137,7 @@ const BloquearScreen = ({ navigation }) => {
           ))}
         </Picker>
 
-        <TouchableOpacity style={Estilo.botaoGeral} onPress={enviando}>
+        <TouchableOpacity style={Estilo.botaoGeral} onPress={bloqueando}>
           <Text style={Estilo.botaoGeralTexto}>Bloquear</Text>
         </TouchableOpacity>
       </ScrollView>

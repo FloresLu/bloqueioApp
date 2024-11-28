@@ -11,8 +11,8 @@ const Stack = createNativeStackNavigator();
 const AppContainer = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Principal">
-        <Stack.Screen name="Voltar" component={MainScreen} options={{ headerShown: false }} />
+      <Stack.Navigator initialRouteName="Main">
+        <Stack.Screen name="Main" component={MainScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Bloquear" component={BloquearScreen} options={{ title: 'Bloquear Equipamento' }} />
         <Stack.Screen name="Desbloquear" component={DesbloquearScreen} options={{ title: 'Desbloquear Equipamento' }} />
         <Stack.Screen name="Dashboard" component={DashboardScreen} options={{title: 'Radar de Equipamentos'}} />

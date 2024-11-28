@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default StyleSheet.create({
   container: {
@@ -62,25 +63,32 @@ export default StyleSheet.create({
     borderRadius: 5,
     padding: 40,
   },
-  containerCartao: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-  },
   cartao: {
+    width: '90%',
     backgroundColor: '#ed6c0c',
-    borderRadius: 10,
-    padding: 15,
-    margin: 5,
-    width: '45%',
+    borderRadius: 8,
+    padding: 16,
+    marginVertical: 8,
+    marginBottom: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   tituloCartao: {
     fontSize: 18,
     fontWeight: 'bold',
+    textAlign:'center',
   },
-  textoCartao: {
-    fontSize: 14,
+  cartaoTexto:{
+    fontSize: 16,
+    color: '#000',
+    fontWeight:'bold',
+    alignItems:'baseline',
   },
-
 
 })
