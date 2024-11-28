@@ -16,8 +16,8 @@ const DashboardScreen = ({ navigation }) => {
         {equipamentos.map((equipamento) => (
           <View key={equipamento} style={Estilo.cartao}>
             <Text style={Estilo.tituloCartao}>{equipamento}</Text>
-            <Text style={Estilo.textoCartao}>Nome: Exemplo Nome</Text>
-            <Text style={Estilo.textoCartao}>Objetivo: Exemplo Objetivo</Text>
+            <Text style={Estilo.textoCartao}>Nome: </Text>
+            <Text style={Estilo.textoCartao}>Objetivo: </Text>
             <Text style={Estilo.textoCartao}>Data: {new Date().toLocaleDateString()}</Text>
           </View>
         ))}
