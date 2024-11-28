@@ -1,4 +1,3 @@
-// c:\Users\flore\Documents\Faculdade\bloqueioApp\bloqueioApp\recursos\telas\MainScreen.js
 import React from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import Estilo from '../estilos/Estilo';
@@ -17,7 +16,7 @@ const MainScreen = ({ navigation }) => {
       <TouchableOpacity style={Estilo.botaoPrincipal} onPress={() => navigation.navigate('Desbloquear')}>
         <Text style={Estilo.botaoGeralTexto}>Desbloquear Equipamento</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={Estilo.botaoPrincipal}>
+      <TouchableOpacity style={Estilo.botaoPrincipal} onPress={() => navigation.navigate('Dashboard')}>
         <Text style={Estilo.botaoGeralTexto}>Radar Bloqueio</Text>
       </TouchableOpacity>
     </View>
